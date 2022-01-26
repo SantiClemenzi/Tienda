@@ -1,8 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavLink, Route, Routes } from 'react-router-dom';
+// componentes
+import Inicio from './components/Inicio';
+import Blog from './components/Blog';
+import Tienda from './components/Tienda';
+import Error404 from './components/Error404';
 
 const App = () => {
-	return <Contenedor></Contenedor>;
+	return (
+		<Contenedor>
+			<Menu>
+				<NavLink to="/">Inicio</NavLink>
+				<NavLink to="/blog">Blog</NavLink>
+				<NavLink to="/tienda">Tienda</NavLink>
+			</Menu>
+			<main>
+				<Routes>
+					<Route path="/" element={<Inicio />}></Route>
+					<Route path="/blog" element={<Blog />}></Route>
+					<Route path="/tienda" element={<Tienda />}></Route>
+					<Route path="*" element={<Error404 />}></Route>
+				</Routes>
+			</main>
+			<aside>
+				<h1>Carrito de compras</h1>
+			</aside>
+		</Contenedor>
+	);
 };
 const Contenedor = styled.div`
 	max-width: 1000px;
@@ -28,11 +53,13 @@ const Menu = styled.nav`
 		color: #fff;
 		display: inline-block;
 		padding: 15px 20px;
+		text-decoration: none;
 	}
 
 	a:hover {
 		background: #1d85e8;
 		text-decoration: none;
+		// border-top: 2px solid #fff;
 	}
 `;
 export default App;
