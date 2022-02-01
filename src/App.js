@@ -16,10 +16,46 @@ const App = () => {
 		{ id: 3, nombre: 'Producto #3' },
 		{ id: 4, nombre: 'Producto #4' },
 	];
-	const [carrito, cambiarCarrito] = useState([
-		// { id: 1, nombre: 'Producto #1', cantidad:2},
-		// { id: 2, nombre: 'Producto #2', cantidad:1}
-	]);
+
+	// creamos un estado para el carrito
+	const [carrito, cambiarCarrito] = useState([]);
+
+	// creamos funcion para agregar productos al carrito
+	const agregarProductos = (idProducto, nombreProducto) => {
+		// clonamos el array del carrito
+		const nuevoCarrito = [...carrito];
+
+		// devolvemos un valor boolean de acuerdo si se repite el producto o no
+		let yaEstaCarrito =
+			nuevoCarrito.filter((producto) => {
+				return producto.id === idProducto;
+			}).length > 0;
+
+		// si ya esta, actualizamos el valor
+		if (yaEstaCarrito) {
+			nuevoCarrito.forEach((producto, index) => {
+				if (producto.id === idProducto) {
+					// obtenemos la cantidad inicial del producto
+					let cantidad = nuevoCarrito[index].cantidad;
+					// incrementamos la cantidad
+					nuevoCarrito[index] = {
+						id: idProducto,
+						nombre: nombreProducto,
+						cantidad: cantidad + 1,
+					};
+				}
+			});
+		} else {
+			// insertamos el nuevo producto al carrito
+			nuevoCarrito.push({
+				id: idProducto,
+				nombre: nombreProducto,
+				cantidad: 1,
+			});
+		}
+		// actualizamos el estado del  carrito
+		cambiarCarrito(nuevoCarrito);
+	};
 	return (
 		<Contenedor>
 			<Menu>
@@ -31,12 +67,20 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<Inicio />}></Route>
 					<Route path="/blog" element={<Blog />}></Route>
-					<Route path="/tienda" element={<Tienda productos={productos}/>}></Route>
+					<Route
+						path="/tienda"
+						element={
+							<Tienda
+								productos={productos}
+								agregarProductos={agregarProductos}
+							/>
+						}
+					></Route>
 					<Route path="*" element={<Error404 />}></Route>
 				</Routes>
 			</main>
 			<aside>
-				<Carrito carrito={carrito}/>
+				<Carrito carrito={carrito} />
 			</aside>
 		</Contenedor>
 	);

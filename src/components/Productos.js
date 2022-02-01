@@ -1,16 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Productos = ({productos}) => {
+const Productos = ({ productos, agregarProductos }) => {
 	return (
 		<ContenedorProductos>
-			{productos.map((producto,index) => {
-                return(
-                    <Producto key={index}>
-                        <h2>{producto.nombre}</h2>
-                        <Boton>Agregar al carrito</Boton>
-                    </Producto>
-                );
+			{productos.map((producto, index) => {
+				return (
+					<Producto key={index}>
+						<h2>{producto.nombre}</h2>
+						<Boton
+							onClick={() => agregarProductos(producto.id, producto.nombre)}
+						>
+							Agregar al carrito
+						</Boton>
+					</Producto>
+				);
 			})}
 		</ContenedorProductos>
 	);
