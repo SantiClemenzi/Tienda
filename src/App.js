@@ -13,14 +13,6 @@ import Error404 from './components/Error404';
 import Carrito from './components/Carrito';
 
 const App = () => {
-	// creamos un objeto con los productos
-	const productos = [
-		{ id: 1, nombre: 'Producto #1' },
-		{ id: 2, nombre: 'Producto #2' },
-		{ id: 3, nombre: 'Producto #3' },
-		{ id: 4, nombre: 'Producto #4' },
-	];
-
 	// creamos un estado para el carrito
 	const [carrito, cambiarCarrito] = useState([]);
 
@@ -79,7 +71,6 @@ const App = () => {
 							path="/tienda"
 							element={
 								<Tienda
-									productos={productos}
 									agregarProductos={agregarProductos}
 								/>
 							}

@@ -7,6 +7,7 @@ const estadoInicial = {
 	],
 	carrito: [1, 2, 3],
 };
+
 const reducer = (estado=estadoInicial, accion) => {
     return estado;
 };
