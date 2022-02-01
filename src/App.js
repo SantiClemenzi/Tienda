@@ -13,48 +13,8 @@ import Error404 from './components/Error404';
 import Carrito from './components/Carrito';
 
 const App = () => {
-	// creamos un estado para el carrito
-	const [carrito, cambiarCarrito] = useState([]);
-
-	// creamos funcion para agregar productos al carrito
-	const agregarProductos = (idProducto, nombreProducto) => {
-		// clonamos el array del carrito
-		const nuevoCarrito = [...carrito];
-
-		// devolvemos un valor boolean de acuerdo si se repite el producto o no
-		let yaEstaCarrito =
-			nuevoCarrito.filter((producto) => {
-				return producto.id === idProducto;
-			}).length > 0;
-
-		// si ya esta, actualizamos el valor
-		if (yaEstaCarrito) {
-			nuevoCarrito.forEach((producto, index) => {
-				if (producto.id === idProducto) {
-					// obtenemos la cantidad inicial del producto
-					let cantidad = nuevoCarrito[index].cantidad;
-					// incrementamos la cantidad
-					nuevoCarrito[index] = {
-						id: idProducto,
-						nombre: nombreProducto,
-						cantidad: cantidad + 1,
-					};
-				}
-			});
-		} else {
-			// insertamos el nuevo producto al carrito
-			nuevoCarrito.push({
-				id: idProducto,
-				nombre: nombreProducto,
-				cantidad: 1,
-			});
-		}
-		// actualizamos el estado del  carrito
-		cambiarCarrito(nuevoCarrito);
-	};
 	// creamos el store que va almacenar los datos
 	const store = createStore(reducer);
-	console.log(store.getState());
 	return (
 		<Provider store={store}>
 			<Contenedor>
@@ -67,19 +27,12 @@ const App = () => {
 					<Routes>
 						<Route path="/" element={<Inicio />}></Route>
 						<Route path="/blog" element={<Blog />}></Route>
-						<Route
-							path="/tienda"
-							element={
-								<Tienda
-									agregarProductos={agregarProductos}
-								/>
-							}
-						></Route>
+						<Route path="/tienda" element={<Tienda />}></Route>
 						<Route path="*" element={<Error404 />}></Route>
 					</Routes>
 				</main>
 				<aside>
-					<Carrito carrito={carrito} />
+					<Carrito />
 				</aside>
 			</Contenedor>
 		</Provider>
