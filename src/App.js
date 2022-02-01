@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { NavLink, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+// reducer que creamos
+import reducer from './reducer/tiendaReducer';
 // componentes
 import Inicio from './components/Inicio';
 import Blog from './components/Blog';
@@ -56,33 +60,38 @@ const App = () => {
 		// actualizamos el estado del  carrito
 		cambiarCarrito(nuevoCarrito);
 	};
+	// creamos el store que va almacenar los datos
+	const store = createStore(reducer);
+	console.log(store.getState());
 	return (
-		<Contenedor>
-			<Menu>
-				<NavLink to="/">Inicio</NavLink>
-				<NavLink to="/blog">Blog</NavLink>
-				<NavLink to="/tienda">Tienda</NavLink>
-			</Menu>
-			<main>
-				<Routes>
-					<Route path="/" element={<Inicio />}></Route>
-					<Route path="/blog" element={<Blog />}></Route>
-					<Route
-						path="/tienda"
-						element={
-							<Tienda
-								productos={productos}
-								agregarProductos={agregarProductos}
-							/>
-						}
-					></Route>
-					<Route path="*" element={<Error404 />}></Route>
-				</Routes>
-			</main>
-			<aside>
-				<Carrito carrito={carrito} />
-			</aside>
-		</Contenedor>
+		<Provider store={store}>
+			<Contenedor>
+				<Menu>
+					<NavLink to="/">Inicio</NavLink>
+					<NavLink to="/blog">Blog</NavLink>
+					<NavLink to="/tienda">Tienda</NavLink>
+				</Menu>
+				<main>
+					<Routes>
+						<Route path="/" element={<Inicio />}></Route>
+						<Route path="/blog" element={<Blog />}></Route>
+						<Route
+							path="/tienda"
+							element={
+								<Tienda
+									productos={productos}
+									agregarProductos={agregarProductos}
+								/>
+							}
+						></Route>
+						<Route path="*" element={<Error404 />}></Route>
+					</Routes>
+				</main>
+				<aside>
+					<Carrito carrito={carrito} />
+				</aside>
+			</Contenedor>
+		</Provider>
 	);
 };
 const Contenedor = styled.div`
